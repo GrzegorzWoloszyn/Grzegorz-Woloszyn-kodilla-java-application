@@ -28,7 +28,7 @@ public class TrelloClient {
     private RestTemplate restTemplate;
 
     private URI createURL() {
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + username +"/boards")
+        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + username + "/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloAppToken)
                 .queryParam("fields", "name, id").build().encode().toUri();
@@ -37,14 +37,7 @@ public class TrelloClient {
 
     public List<TrelloBoardDto> getTrelloBoards() {
 
-        try {
-            TrelloBoardDto[] boardsResponse = restTemplate.getForObject(createURL(), TrelloBoardDto[].class);
-            return Arrays.asList(Optional.ofNullable(boardsResponse).orElse(new TrelloBoardDto[0]));
-        } catch(NullPointerException e) {
-            System.out.println(e);
-            return new ArrayList<>();
-        }
-
+        return Optional.ofNullable(Arrays.asList
+                (restTemplate.getForObject(createURL(), TrelloBoardDto[].class))).orElse(new ArrayList<>());
     }
-
 }
