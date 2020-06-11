@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/v1/trello")
 public class TrelloController {
 
@@ -18,7 +19,6 @@ public class TrelloController {
 
     @RequestMapping(method= RequestMethod.GET, value = "getTrelloBoards")
     public List<TrelloBoardDto> getTrelloBoards() {
-        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
         return trelloClient.getTrelloBoards();
     }
 
