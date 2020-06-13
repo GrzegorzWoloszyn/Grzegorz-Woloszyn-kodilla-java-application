@@ -11,7 +11,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/v1/task")
-//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 public class TaskController {
 
     @Autowired
