@@ -25,15 +25,20 @@ public class SimpleEmailServiceTest {
     @Test
     public void shouldSendEmail() {
         //Given
-        Mail mail = new Mail("test@test.com", "Test", "Test message");
+        Mail mail = new Mail("test@test.com", "Test", "Test message", "test2@test2.pl");
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(mail.getMailTo());
         simpleMailMessage.setSubject(mail.getSubject());
         simpleMailMessage.setText(mail.getMessage());
+        simpleMailMessage.setCc(mail.getToCc());
 
         //When
-        service.send(mail);
+        if(mail.getToCc() != " ") {
+            service.send(mail);
+        } else {
+            simpleMailMessage.setCc((String) null);
+        }
 
         //Then
         verify(javaMailSender, times(1)).send(simpleMailMessage);
