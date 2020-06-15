@@ -2,6 +2,7 @@ package com.crud.tasks.service;
 
 import com.crud.tasks.domain.Mail;
 import org.junit.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,11 +34,10 @@ public class SimpleEmailServiceTest {
         simpleMailMessage.setText(mail.getMessage());
         simpleMailMessage.setCc(mail.getToCc());
 
-        //When
-        if(mail.getToCc() != " ") {
+        if(StringUtils.isNotBlank(mail.getToCc())) {
             service.send(mail);
         } else {
-            simpleMailMessage.setCc((String) null);
+            System.out.println("Failed to process email sending");
         }
 
         //Then
