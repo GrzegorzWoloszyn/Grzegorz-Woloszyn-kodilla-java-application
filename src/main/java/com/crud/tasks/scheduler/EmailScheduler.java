@@ -25,7 +25,8 @@ public class EmailScheduler {
  //   @Scheduled(cron = "0 0 10 * * *")
     @Scheduled(fixedDelay = 10000)
     public void sendInformationMail() {
-        long size = taskRepository.count();
-        emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, "Currently in database you have" + size + "tasks"));
+        long size = 1; // taskRepository.count();
+        String word = (size == 1)?" task.":" tasks.";
+        emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, "Currently in database you have " + size + word));
     }
 }
