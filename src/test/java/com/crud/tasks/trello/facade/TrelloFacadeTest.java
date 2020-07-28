@@ -1,13 +1,9 @@
 package com.crud.tasks.trello.facade;
 
-import com.crud.tasks.domain.TrelloBoard;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloList;
-import com.crud.tasks.domain.TrelloListDto;
+import com.crud.tasks.domain.*;
 import com.crud.tasks.mapper.TrelloMapper;
 import com.crud.tasks.service.TrelloService;
 import com.crud.tasks.trello.validator.TrelloValidator;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,9 +13,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloFacadeTest {
 
@@ -100,5 +99,26 @@ public class TrelloFacadeTest {
                 assertEquals(false, trelloListDto.isClosed());
             });
         });
+    }
+    @Test
+    public void shouldCreateCreatedTrelloCardDto() {
+        //Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto("test_card", "test_description", "test_pos", "test_listId");
+        TrelloCard trelloCard = new TrelloCard("test_card", "test_description", "test_pos", "test_listId");
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("1", "created_test_card", "test_url");
+
+        when(trelloMapper.mapToCard(trelloCardDto)).thenReturn(trelloCard);
+        when(trelloMapper.mapToCardDto(trelloCard)).thenReturn(trelloCardDto);
+        when(trelloService.creatTrelloCard(trelloCardDto)).thenReturn(createdTrelloCardDto);
+
+        //When
+        CreatedTrelloCardDto cardDto = trelloFacade.createCard(trelloCardDto);
+
+        //Then
+        assertEquals(createdTrelloCardDto.getId(), cardDto.getId());
+        assertEquals(createdTrelloCardDto.getName(), cardDto.getName());
+        assertEquals(createdTrelloCardDto.getShortUrl(), cardDto.getShortUrl());
+        assertThat(trelloCard.getName()).contains("test");
+
     }
 }
