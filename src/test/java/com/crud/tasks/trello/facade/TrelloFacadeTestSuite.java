@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloFacadeTestSuite {
@@ -73,6 +74,13 @@ public class TrelloFacadeTestSuite {
         Assert.assertEquals(trelloList.get(0).getId(), mappedList.get(0).getId());
         Assert.assertEquals(trelloList.get(0).getName(), mappedList.get(0).getName());
         Assert.assertEquals(trelloList.get(0).isClosed(), mappedList.get(0).isClosed());
+        assertEquals(trelloList.size(), mappedList.size());
+        assertThat(trelloList.size()).isEqualTo(mappedList.size());
+
+        mappedList.forEach(TrelloList -> {
+            assertEquals("1", mappedList.get(0).getId());
+            assertEquals("trello list dto", mappedList.get(0).getName());
+        });
     }
 
     @Test
