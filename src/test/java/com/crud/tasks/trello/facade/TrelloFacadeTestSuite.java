@@ -11,8 +11,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloFacadeTestSuite {
@@ -23,11 +24,10 @@ public class TrelloFacadeTestSuite {
     @Test
     public void testMapToBoard() {
         //Given
-        TrelloListDto trelloListDto = new TrelloListDto("1", "trello list dto", false);
         List<TrelloListDto> trelloList = new ArrayList<>();
-        trelloList.add(trelloListDto);
+        trelloList.add(new TrelloListDto("1", "trello list dto", false));
 
-        TrelloBoardDto trelloBoard = new TrelloBoardDto("board_dto", "1", trelloList);
+        TrelloBoardDto trelloBoard = new TrelloBoardDto("1", "board_dto", trelloList);
         List<TrelloBoardDto> boardDtoList = new ArrayList<>();
         boardDtoList.add(trelloBoard);
 
@@ -43,9 +43,8 @@ public class TrelloFacadeTestSuite {
     @Test
     public void testMapToBoardDto() {
         //Given
-        TrelloList trelloList = new TrelloList("1", "trello list dto", true);
         List<TrelloList> trelloLists = new ArrayList<>();
-        trelloLists.add(trelloList);
+        trelloLists.add(new TrelloList("1", "trello list dto", true));
 
         TrelloBoard trelloBoard = new TrelloBoard("2", "trello board", trelloLists);
         List<TrelloBoard> trelloBoards = new ArrayList<>();
@@ -63,32 +62,23 @@ public class TrelloFacadeTestSuite {
     @Test
     public void testMapToList() {
         //Given
-        TrelloListDto trelloListDto = new TrelloListDto("1", "trello list dto", false);
         List<TrelloListDto> trelloList = new ArrayList<>();
-        trelloList.add(trelloListDto);
+        trelloList.add(new TrelloListDto("1", "trello list dto", false));
 
         //When
         List<TrelloList> mappedList = trelloMapper.mapToList(trelloList);
 
         //Then
-        Assert.assertEquals(trelloList.get(0).getId(), mappedList.get(0).getId());
-        Assert.assertEquals(trelloList.get(0).getName(), mappedList.get(0).getName());
         Assert.assertEquals(trelloList.get(0).isClosed(), mappedList.get(0).isClosed());
-        assertEquals(trelloList.size(), mappedList.size());
-        assertThat(trelloList.size()).isEqualTo(mappedList.size());
-
-        mappedList.forEach(TrelloList -> {
-            assertEquals("1", mappedList.get(0).getId());
-            assertEquals("trello list dto", mappedList.get(0).getName());
-        });
+        assertThat(mappedList).extracting("id", "name")
+                .containsOnly(tuple("1", "trello list dto"));
     }
 
     @Test
     public void testMapToListDto() {
         //Given
-        TrelloList trelloList = new TrelloList("1", "trello list dto", true);
         List<TrelloList> trelloLists = new ArrayList<>();
-        trelloLists.add(trelloList);
+        trelloLists.add(new TrelloList("1", "trello list dto", true));
 
         //When
         List<TrelloListDto> mappedList = trelloMapper.mapToListDto(trelloLists);
