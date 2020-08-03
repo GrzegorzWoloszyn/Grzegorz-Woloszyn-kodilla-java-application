@@ -32,7 +32,6 @@ public class TrelloFacadeTestSuite {
         assertThat(mappedList)
                 .extracting(e -> e.getId(), e -> e.getName())
                 .contains(tuple("1", "board_dto"));
-        assertThat(mappedList.contains(trelloList)).isEqualTo(boardDtoList.contains(trelloList));
     }
 
     @Test
