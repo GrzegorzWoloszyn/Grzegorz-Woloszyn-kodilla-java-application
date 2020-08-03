@@ -3,12 +3,16 @@ DELIMITER $$
 
 CREATE FUNCTION FindReader(id INT) RETURNS VARCHAR(2000) NOT DETERMINISTIC
 BEGIN
+	DECLARE result VARCHAR(200); 
      IF id > 0 THEN
-		SELECT READER_ID, FIRSTNAME, LASTNAME, PESELID FROM READERS
-        WHERE READER_ID = id;
+		SELECT FIRSTNAME FROM READERS
+        WHERE READER_ID = id
+        INTO result;
+	
      ELSE
-		RETURN 'User_id is wrong, pls put a number > 0';
+		SET result =  'User_id is wrong, pls put a number > 0';
 	END IF;
+    RETURN result;
 END$$
 
 DELIMITER ;
