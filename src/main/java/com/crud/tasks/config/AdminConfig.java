@@ -10,4 +10,7 @@ public class AdminConfig {
 
     @Value("do.logowan01@gmail.com")
     private String adminMail;
+
+    @Value("${admin.name}")
+    private String adminName;
 }
