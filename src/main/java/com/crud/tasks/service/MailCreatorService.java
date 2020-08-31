@@ -21,8 +21,6 @@ public class MailCreatorService {
     @Autowired
     private CompanyDetails companyDetails;
 
-    private String goodbye = "Sincerely, ";
-
     public String buildTrelloCardEmail(String message) {
         Context context = new Context();
         context.setVariable("message", message);
